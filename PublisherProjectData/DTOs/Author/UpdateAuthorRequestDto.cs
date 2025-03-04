@@ -1,7 +1,7 @@
-﻿using PublisherData.Models;
+﻿using PublisherProjectData.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace PublisherData.DTOs.Author
+namespace PublisherProjectData.DTOs.Author
 {
     public class UpdateAuthorRequestDto
     {

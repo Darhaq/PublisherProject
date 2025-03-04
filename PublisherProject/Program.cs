@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using PublisherProject.Data;
-using PublisherProject.Interfaces;
-using PublisherProject.Repositories;
 using Newtonsoft.Json;
+using PublisherProjectData.Data;
+using PublisherProjectData.Interfaces;
+using PublisherProjectData.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,7 @@ builder.Services.AddDbContext<PublisherContext>(options =>
 
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 

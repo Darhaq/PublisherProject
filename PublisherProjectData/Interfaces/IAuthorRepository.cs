@@ -1,7 +1,7 @@
-﻿using PublisherData.DTOs.Author;
-using PublisherData.Models;
+﻿using PublisherProjectData.DTOs.Author;
+using PublisherProjectData.Models;
 
-namespace PublisherData.Interfaces
+namespace PublisherProjectData.Interfaces
 {
     public interface IAuthorRepository
     {

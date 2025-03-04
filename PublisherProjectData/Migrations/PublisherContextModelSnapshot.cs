@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PublisherData.Data;
-
+using PublisherProjectData.Data;
 
 #nullable disable
 
-namespace PublisherProject.Migrations
+namespace PublisherProjectAPI.Migrations
 {
     [DbContext(typeof(PublisherContext))]
     partial class PublisherContextModelSnapshot : ModelSnapshot

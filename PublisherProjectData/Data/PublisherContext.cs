@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PublisherData.Models;
+using PublisherProjectData.Models;
 using System.Xml;
 
-namespace PublisherData.Data
+namespace PublisherProjectData.Data
 {
     public class PublisherContext : DbContext
     {

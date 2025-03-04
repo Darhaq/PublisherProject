@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace PublisherData.Models
+namespace PublisherProjectData.DTOs.Book
 {
-    public class Book
+    public class CreatedBookDto
     {
         public int BookId { get; set; }
         public string Title { get; set; } = null!;
@@ -16,8 +14,7 @@ namespace PublisherData.Models
 
         [Range(1, 13, ErrorMessage = "Price must be between 1 and 13.")]
         public int Rating { get; set; }
-        public Author? Author { get; set; }
-        public int? AuthorId { get; set; }
-        //public Cover Cover { get; set; }
+        public Models.Author Author { get; set; } = null!;
+        public int AuthorId { get; set; }
     }
 }

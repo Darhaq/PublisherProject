@@ -1,26 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PublisherProject.Data;
-using PublisherProject.DTOs.Author;
-using PublisherProject.Interfaces;
-using PublisherProject.Mappers;
-using PublisherProject.Models;
+using PublisherProjectData.Data;
+using PublisherProjectData.Models;
+using PublisherProjectData.DTOs.Author;
+using PublisherProjectData.Interfaces;
+using PublisherProjectData.Mappers;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace PublisherProject.Controllers
+namespace PublisherProjectAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthorsController : ControllerBase
     {
-        private readonly PublisherContext _context;
+  
         private readonly IAuthorRepository _authorRepository;
 
-        public AuthorsController(PublisherContext context, IAuthorRepository authorRepository)
+        public AuthorsController(IAuthorRepository authorRepository)
         {
-            this._context = context;
-            this._authorRepository = authorRepository;
+            //this._context = context;
+            _authorRepository = authorRepository;
         }
 
         // https://localhost:7135/api/authors
@@ -34,8 +34,6 @@ namespace PublisherProject.Controllers
             var authorDtos = authors.Select(s => s.ToAuthorDto());
             return Ok(authorDtos);
 
-            // var authors = _context.Authors.ToList();
-            // return authors;
         }
 
         [HttpGet("{id}")]
@@ -52,11 +50,6 @@ namespace PublisherProject.Controllers
 
             return Ok(author.ToAuthorDto());
 
-            //var author = _context.Authors.FirstOrDefault(a => a.AuthorId == id);
-            //if (author == null) {
-            //    return null;
-            //}
-            //return author;
         }
 
         [HttpDelete("{id}")]
@@ -75,16 +68,19 @@ namespace PublisherProject.Controllers
 
             return NoContent();
 
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] RequestCreateAuthorDto createAuthorDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-            //var authorToDelete = _context.Authors.Find(id);
-            //if (authorToDelete == null)
-            //{
-            //    return "Bad request";
-            //}
-            //_context.Authors.Remove(authorToDelete);
-            //_context.SaveChanges();
-            //return $"{authorToDelete.FirstName} er slettet";
+            var authorModel = createAuthorDto.ToAuthorFromRequestCreateDto();
+
+            await _authorRepository.CreateAsync(authorModel);
+
+            return CreatedAtAction(nameof(GetAuthorById), new { id = authorModel.AuthorId }, authorModel);
         }
 
         [HttpPut("id")]

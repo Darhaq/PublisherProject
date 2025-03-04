@@ -1,8 +1,8 @@
-﻿using PublisherData.DTOs.Author;
-using PublisherData.Models;
+﻿using PublisherProjectData.DTOs.Author;
+using PublisherProjectData.Models;
 using System.Runtime.CompilerServices;
 
-namespace PublisherData.Mappers
+namespace PublisherProjectData.Mappers
 {
     public static class AuthorMappers
     {
@@ -20,7 +20,7 @@ namespace PublisherData.Mappers
             return new Author
             {
                 FirstName = createDto.FirstName,
-                LastName = createDto.LastName,
+                LastName = createDto.LastName
             };
         }
         public static AuthorDto ToAuthorDto(this Author authorModel)
@@ -31,7 +31,8 @@ namespace PublisherData.Mappers
                 FirstName = authorModel.FirstName,
                 LastName = authorModel.LastName,
 
-                Books = authorModel.Books.Select(c => c.ToBookDto()).ToList(),
+                // Books = authorModel.Books.Select(c => c.ToBookDto()).ToList(),
+                 Books = authorModel.Books.Select(c => c.FromBookToRequestCreateBookDto()).ToList(),
             };
         }
 

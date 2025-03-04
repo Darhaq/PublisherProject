@@ -1,4 +1,4 @@
-﻿namespace PublisherData.Models
+﻿namespace PublisherProjectData.Models
 {
     public class Author
     {

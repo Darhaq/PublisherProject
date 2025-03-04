@@ -1,8 +1,8 @@
-﻿using PublisherData.DTOs.Book;
-using PublisherData.Models;
+﻿using PublisherProjectData.Models;
+using PublisherProjectData.DTOs.Book;
 using System.ComponentModel.DataAnnotations;
 
-namespace PublisherData.DTOs.Author
+namespace PublisherProjectData.DTOs.Author
 {
     public class AuthorDto
     {

@@ -1,10 +1,21 @@
-﻿using PublisherData.DTOs.Book;
-using PublisherData.Models;
+﻿using PublisherProjectData.DTOs.Book;
+using PublisherProjectData.Models;
+using System.Runtime.CompilerServices;
 
-namespace PublisherData.Mappers
+namespace PublisherProjectData.Mappers
 {
     public static class BookMappers
     {
+        public static RequestCreateBookDto FromBookToRequestCreateBookDto(this Book book)
+        {
+            return new RequestCreateBookDto
+            {
+                AuthorId = book.AuthorId,
+                BasePrice = book.BasePrice,
+                PublishDate = book.PublishDate,
+                Title = book.Title,
+            };
+        }
         public static Book ToBookDto(this RequestCreateBookDto bookDto)
         {
             return new Book
@@ -14,6 +25,19 @@ namespace PublisherData.Mappers
                 PublishDate = bookDto.PublishDate,
                 Title = bookDto.Title,
             };
+        }
+
+        public static CreatedBookDto FromBookToCreatedBookDto(this Book bookDto)
+        {
+            return new CreatedBookDto
+            {
+                BookId = bookDto.BookId,
+                AuthorId = bookDto.AuthorId,
+                BasePrice = bookDto.BasePrice,
+                PublishDate = bookDto.PublishDate,
+                Title = bookDto.Title,
+            };
+
         }
 
         //public static Comment ToCommentFromCreate(this CreateCommentDto commentDto, int stockId)

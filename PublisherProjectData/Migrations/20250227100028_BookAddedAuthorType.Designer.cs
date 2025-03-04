@@ -3,18 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PublisherData.Data;
-
+using PublisherProjectData.Data;
 
 #nullable disable
 
-namespace PublisherProject.Migrations
+namespace PublisherProjectAPI.Migrations
 {
     [DbContext(typeof(PublisherContext))]
-    partial class PublisherContextModelSnapshot : ModelSnapshot
+    [Migration("20250227100028_BookAddedAuthorType")]
+    partial class BookAddedAuthorType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,14 +58,10 @@ namespace PublisherProject.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("BasePrice")
-                        .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateOnly>("PublishDate")
                         .HasColumnType("date");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

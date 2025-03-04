@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PublisherData.Data;
-using PublisherData.DTOs.Author;
-using PublisherData.Interfaces;
-using PublisherData.Models;
+using PublisherProjectData.Data;
+using PublisherProjectData.DTOs.Author;
+using PublisherProjectData.Interfaces;
+using PublisherProjectData.Models;
 
-namespace PublisherData.Repositories
+namespace PublisherProjectData.Repositories
 {
     public class AuthorRepository: IAuthorRepository
     {

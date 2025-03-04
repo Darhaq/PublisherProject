@@ -3,18 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PublisherData.Data;
-
+using PublisherProjectData.Data;
 
 #nullable disable
 
-namespace PublisherProject.Migrations
+namespace PublisherProjectAPI.Migrations
 {
     [DbContext(typeof(PublisherContext))]
-    partial class PublisherContextModelSnapshot : ModelSnapshot
+    [Migration("20250227095427_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,18 +54,14 @@ namespace PublisherProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("BasePrice")
-                        .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateOnly>("PublishDate")
                         .HasColumnType("date");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -78,13 +76,9 @@ namespace PublisherProject.Migrations
 
             modelBuilder.Entity("PublisherProject.Models.Book", b =>
                 {
-                    b.HasOne("PublisherProject.Models.Author", "Author")
+                    b.HasOne("PublisherProject.Models.Author", null)
                         .WithMany("Books")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
+                        .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("PublisherProject.Models.Author", b =>

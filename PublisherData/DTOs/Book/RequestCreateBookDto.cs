@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace PublisherProject.DTOs.Book
+namespace PublisherData.DTOs.Book
 {
-    public class BookDto
+    public class RequestCreateBookDto
     {
-        public int BookId { get; set; }
+        [Required]
         public string Title { get; set; } = null!;
+        [Required]
         public DateOnly PublishDate { get; set; }
+        [Required]
         public decimal BasePrice { get; set; }
 
         //[Precision(12, 2)]
@@ -15,8 +17,8 @@ namespace PublisherProject.DTOs.Book
 
         [Range(1, 13, ErrorMessage = "Price must be between 1 and 13.")]
         public int Rating { get; set; }
-        [JsonIgnore]
-        public PublisherProject.Models.Author Author { get; set; } = new();
+        [Required]
         public int AuthorId { get; set; }
+        //public Cover Cover { get; set; }
     }
 }
