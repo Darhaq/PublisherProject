@@ -1,6 +1,9 @@
-﻿using PublisherProjectData.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PublisherProjectData.Data;
+using PublisherProjectData.DTOs.Author;
 using PublisherProjectData.DTOs.Book;
 using PublisherProjectData.Interfaces;
+using PublisherProjectData.Mappers;
 using PublisherProjectData.Models;
 
 namespace PublisherProjectData.Repositories
@@ -11,7 +14,7 @@ namespace PublisherProjectData.Repositories
 
         public BookRepository(PublisherContext context)
         {
-            _context = context;
+            this._context = context;
         }
         public async Task<Book> CreateAsync(Book bookModel)
         {
@@ -22,29 +25,54 @@ namespace PublisherProjectData.Repositories
         
         }
 
-        public Task<Book?> DeleteAsync(int id)
+        public async Task<BookDto?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var bookModel = await _context.Books.FirstOrDefaultAsync(x => x.BookId == id);
+
+            if (bookModel == null)
+            {
+                return null;
+            }
+
+            _context.Books.Remove(bookModel);
+            await _context.SaveChangesAsync();
+            return bookModel.FromBookToBookDto();
         }
 
-        public Task<bool> Exists(int id)
+        public async Task<bool> Exists(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Books.AnyAsync(s => s.BookId == id);
         }
 
-        public Task<List<Book>> GetAllAsync()
+        public async Task<List<Book>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Books.Include(c => c.Author).ToListAsync();
         }
 
-        public Task<Book> GetByIdAsync(int id)
+        public async Task<Book?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var theBook = await _context.Books.Include(c => c.Author).FirstOrDefaultAsync(x => x.BookId == id);
+            return theBook;
         }
 
-        public Task<Book?> UpdateAsync(int id, UpdateBookRequestDto bookModel)
+        public async Task<BookDto?> UpdateAsync(int id, UpdateBookRequestDto bookModel)
         {
-            throw new NotImplementedException();
+            var existingBook = await _context.Books.FirstOrDefaultAsync(x => x.BookId == id);
+
+            if (existingBook == null)
+            {
+                return null;
+            }
+
+            existingBook.BookId = bookModel.BookId;
+            existingBook.PublishDate = bookModel.PublishDate;
+            existingBook.AuthorId = bookModel.AuthorId;
+            //existingBook.Author = bookModel.Author;
+            existingBook.BasePrice = bookModel.BasePrice;
+            existingBook.Title = bookModel.Title;
+            await _context.SaveChangesAsync();
+
+            return existingBook.FromBookToBookDto();
         }
     }
 }

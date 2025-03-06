@@ -15,8 +15,7 @@ namespace PublisherProjectAPI.Migrations
     [Migration("20250227112735_removedsalesPrice")]
     partial class removedsalesPrice
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,7 +14,7 @@ namespace PublisherProjectData.DTOs.Book
 
         [Range(1, 13, ErrorMessage = "Price must be between 1 and 13.")]
         public int Rating { get; set; }
-        public Models.Author Author { get; set; } = null!;
+        public PublisherProjectData.Models.Author Author { get; set; } = null!;
         public int AuthorId { get; set; }
     }
 }

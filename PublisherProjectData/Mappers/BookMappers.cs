@@ -6,6 +6,19 @@ namespace PublisherProjectData.Mappers
 {
     public static class BookMappers
     {
+        public static BookDto FromUpdateBookRequestDtoToBookDto(this UpdateBookRequestDto updateBookRequestDto)
+        {
+            return new BookDto
+            {
+                BookId = updateBookRequestDto.BookId,
+                Title = updateBookRequestDto.Title,
+                AuthorId = updateBookRequestDto.AuthorId,
+                BasePrice = updateBookRequestDto.BasePrice,
+                PublishDate = updateBookRequestDto.PublishDate,
+                Rating = updateBookRequestDto.Rating,
+            };
+        }
+
         public static RequestCreateBookDto FromBookToRequestCreateBookDto(this Book book)
         {
             return new RequestCreateBookDto
@@ -27,6 +40,20 @@ namespace PublisherProjectData.Mappers
             };
         }
 
+        public static BookDto FromBookToBookDto(this Book book)
+        {
+            return new BookDto
+            {
+                BookId = book.BookId,
+                Author = book.Author,
+                AuthorId = book.AuthorId,
+                BasePrice = book.BasePrice,
+                PublishDate = book.PublishDate,
+                Title = book.Title,
+                Rating = book.Rating,
+            };
+        }
+
         public static CreatedBookDto FromBookToCreatedBookDto(this Book bookDto)
         {
             return new CreatedBookDto
@@ -39,24 +66,5 @@ namespace PublisherProjectData.Mappers
             };
 
         }
-
-        //public static Comment ToCommentFromCreate(this CreateCommentDto commentDto, int stockId)
-        //{
-        //    return new Comment
-        //    {
-        //        Title = commentDto.Title,
-        //        Content = commentDto.Content,
-        //        StockId = stockId
-        //    };
-        //}
-
-        //public static Comment ToCommentFromUpdate(this UpdateCommentRequestDto commentDto)
-        //{
-        //    return new Comment
-        //    {
-        //        Title = commentDto.Title,
-        //        Content = commentDto.Content,
-        //    };
-        //}
     }
 }

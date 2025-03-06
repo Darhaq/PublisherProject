@@ -12,7 +12,7 @@ namespace PublisherProjectData.Repositories
 
         public AuthorRepository(PublisherContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
         public async Task<Author> CreateAsync(Author authorModel)

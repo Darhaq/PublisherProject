@@ -7,10 +7,10 @@ namespace PublisherProjectData.Interfaces
     public interface IBookRepository
     {
         Task<List<Book>> GetAllAsync();
-        Task<Book> GetByIdAsync(int id); // FirstOrDefault can be NULL
+        Task<Book?> GetByIdAsync(int id); // FirstOrDefault can be NULL
         Task<Book> CreateAsync(Book bookModel);
-        Task<Book?> UpdateAsync(int id, UpdateBookRequestDto bookModel);
-        Task<Book?> DeleteAsync(int id);
+        Task<BookDto?> UpdateAsync(int id, UpdateBookRequestDto bookModel);
+        Task<BookDto?> DeleteAsync(int id);
         Task<bool> Exists(int id);
     }
 }

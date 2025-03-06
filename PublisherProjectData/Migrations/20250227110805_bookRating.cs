@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace PublisherProject.Migrations
+namespace PublisherProjectData.Migrations
 {
     /// <inheritdoc />
     public partial class bookRating : Migration
