@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PublisherProjectData.DTOs.Author;
 using PublisherProjectData.DTOs.Book;
@@ -10,6 +11,7 @@ namespace PublisherProjectAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] // Beskyt hele controlleren
     public class BooksController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;

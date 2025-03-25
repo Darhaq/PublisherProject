@@ -46,7 +46,10 @@ namespace PublisherProjectData.Repositories
                 return await _context.Authors.FirstOrDefaultAsync(x => x.AuthorId == id); 
             }
             else { 
-                return await _context.Authors.Include(c => c.Books).FirstOrDefaultAsync(x => x.AuthorId == id);
+                return await _context.Authors
+                    .Include(c => c.Books)
+                        .ThenInclude(b => b.Covers)
+                    .FirstOrDefaultAsync(x => x.AuthorId == id);
             }
         }
 

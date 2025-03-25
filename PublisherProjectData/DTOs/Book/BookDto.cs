@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using PublisherProjectData.DTOs.Author;
+using PublisherProjectData.DTOs.Cover;
 
 namespace PublisherProjectData.DTOs.Book
 {
@@ -17,8 +19,10 @@ namespace PublisherProjectData.DTOs.Book
         //[Precision(12, 2)]
         //public decimal SalesPrice { get; set; }
         public int Rating { get; set; }
-        [JsonIgnore]
-        public PublisherProjectData.Models.Author? Author { get; set; }
+        public AuthorDto Author { get; set; }
+        //[JsonIgnore]
+        //public PublisherProjectData.Models.Author? Author { get; set; }
         public int AuthorId { get; set; }
+        public List<CoverDto> Covers { get; set; } = new();
     }
 }

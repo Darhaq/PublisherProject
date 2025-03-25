@@ -20,7 +20,7 @@ namespace PublisherProjectAPI.Controllers
         public AuthorsController(IAuthorRepository authorRepository)
         {
             //this._context = context;
-            _authorRepository = authorRepository;
+            this._authorRepository = authorRepository;
         }
 
         // https://localhost:7135/api/authors

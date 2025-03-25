@@ -1,4 +1,6 @@
-﻿using PublisherProjectData.DTOs.Book;
+﻿using PublisherProjectData.DTOs.Author;
+using PublisherProjectData.DTOs.Book;
+using PublisherProjectData.DTOs.Cover;
 using PublisherProjectData.Models;
 using System.Runtime.CompilerServices;
 
@@ -45,12 +47,18 @@ namespace PublisherProjectData.Mappers
             return new BookDto
             {
                 BookId = book.BookId,
-                Author = book.Author,
-                AuthorId = book.AuthorId,
                 BasePrice = book.BasePrice,
                 PublishDate = book.PublishDate,
                 Title = book.Title,
                 Rating = book.Rating,
+                Author = book.Author != null ? new AuthorDto
+                {
+                    AuthorId = book.Author.AuthorId,
+                    FirstName = book.Author.FirstName,
+                    LastName = book.Author.LastName
+                } : null!,
+                AuthorId = book.AuthorId,
+                Covers = book.Covers?.Select(c => c.ToCoverDto()).ToList() ?? new List<CoverDto>()
             };
         }
 

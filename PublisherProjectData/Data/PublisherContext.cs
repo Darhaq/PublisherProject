@@ -17,6 +17,7 @@ namespace PublisherProjectData.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Cover> Covers { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,46 +32,28 @@ namespace PublisherProjectData.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Konfigurer Book.BasePrice til at have præcision (7, 2)
             modelBuilder.Entity<Book>()
             .Property(e => e.BasePrice)
-            .HasPrecision(7, 2); 
-            
-            
-            // Precision: 18, Scale: 2
-                              //    modelBuilder.Entity<Author>().HasData(
-                              //        new Author { AuthorId = 1, FirstName = "Rhoda", LastName = "Lerman" });
-                              //    var authorList = new Author[]{
-                              //    new Author {AuthorId = 2, FirstName = "Ruth", LastName = "Ozeki" },
-                              //    new Author {AuthorId = 3, FirstName = "Sofia", LastName = "Segovia" },
-                              //    new Author {AuthorId = 4, FirstName = "Ursula K.", LastName = "LeGuin" },
-                              //    new Author {AuthorId = 5, FirstName = "Hugh", LastName = "Howey" },
-                              //    new Author {AuthorId = 6, FirstName = "Isabelle", LastName = "Allende" }
-                              //};
-                              //    modelBuilder.Entity<Author>().HasData(authorList);
+            .HasPrecision(7, 2);
 
-            //    var someBooks = new Book[]{
-            //    new Book {BookId = 1, AuthorId=1, Title = "In God's Ear",
-            //        PublishDate= new DateOnly(1989,3,1) },
-            //    new Book {BookId = 2, AuthorId=2, Title = "A Tale For the Time Being",
-            //    PublishDate = new DateOnly(2013,12,31) },
-            //    new Book {BookId = 3, AuthorId=3, Title = "The Left Hand of Darkness",
-            //    PublishDate=new DateOnly(1969,3,1)} };
-            //    modelBuilder.Entity<Book>().HasData(someBooks);
+            // Konfigurer relationen mellem Author og Book
+            modelBuilder.Entity<Author>()
+                .HasMany(a => a.Books) // En Author har mange Books
+                .WithOne(b => b.Author) // En Book tilhører én Author
+                .HasForeignKey(b => b.AuthorId); // Foreign key i Book
 
-            //    var someArtists = new Artist[]{
-            //    new Artist {ArtistId = 1, FirstName = "Pablo", LastName="Picasso"},
-            //    new Artist {ArtistId = 2, FirstName = "Dee", LastName="Bell"},
-            //    new Artist {ArtistId = 3, FirstName ="Katharine", LastName="Kuharic"} };
-            //    modelBuilder.Entity<Artist>().HasData(someArtists);
+            // Konfigurer relationen mellem Book og Cover
+            modelBuilder.Entity<Book>()
+                .HasMany(b => b.Covers) // En Book har mange Covers
+                .WithOne(c => c.Book) // Et Cover tilhører én Book
+                .HasForeignKey(c => c.BookId); // Foreign key i Cover
 
-            //    var someCovers = new Cover[]{
-            //    new Cover {CoverId = 1, BookId=3,
-            //        DesignIdeas="How about a left hand in the dark?", DigitalOnly=false},
-            //    new Cover {CoverId = 2, BookId=2,
-            //        DesignIdeas= "Should we put a clock?", DigitalOnly=true},
-            //    new Cover {CoverId = 3, BookId=1,
-            //        DesignIdeas="A big ear in the clouds?", DigitalOnly = false}};
-            //    modelBuilder.Entity<Cover>().HasData(someCovers);
+            // Konfigurer relationen mellem Cover og Artist (many-to-many)
+            modelBuilder.Entity<Cover>()
+                .HasMany(c => c.Artists) // Et Cover har mange Artists
+                .WithMany(a => a.Covers) // En Artist har mange Covers
+                .UsingEntity(j => j.ToTable("CoverArtist")); // Navnet på join-tabellen
 
 
         }

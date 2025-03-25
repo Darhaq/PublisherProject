@@ -9,6 +9,6 @@ namespace PublisherProjectData.DTOs.Author
         public int AuthorId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<RequestCreateBookDto> Books { get; set; } = new List<RequestCreateBookDto>();
+        //public List<RequestCreateBookDto> Books { get; set; } = new List<RequestCreateBookDto>();
     }
 }

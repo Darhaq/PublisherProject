@@ -18,6 +18,7 @@ namespace PublisherProjectData.Models
         public int Rating { get; set; }
         public Author? Author { get; set; }
         public int AuthorId { get; set; }
+        public List<Cover> Covers { get; set; }
         //public Cover Cover { get; set; }
     }
 }

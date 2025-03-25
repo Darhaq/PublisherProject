@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PublisherProjectData.DTOs.Artist;
 using PublisherProjectData.Interfaces;
+using PublisherProjectData.Mappers;
 using PublisherProjectData.Models;
 
 namespace PublisherProjectAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ArtistsController : ControllerBase
     {
         private readonly IArtistRepository _artistRepository;
@@ -24,12 +27,7 @@ namespace PublisherProjectAPI.Controllers
                 return BadRequest();
 
             var artists = await _artistRepository.GetAllAsync();
-            var artistDtos = artists.Select(s => new ArtistDto
-            {
-                ArtistId = s.ArtistId,
-                FirstName = s.FirstName,
-                LastName = s.LastName
-            });
+            var artistDtos = artists.Select(s => s.ToArtistDto());
             return Ok(artistDtos);
         }
 
@@ -45,13 +43,7 @@ namespace PublisherProjectAPI.Controllers
                 return NotFound();
             }
 
-            var artistDto = new ArtistDto
-            {
-                ArtistId = artist.ArtistId,
-                FirstName = artist.FirstName,
-                LastName = artist.LastName
-            };
-            return Ok(artistDto);
+            return Ok(artist.ToArtistDto());
         }
 
         [HttpPost]
@@ -60,14 +52,9 @@ namespace PublisherProjectAPI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var artistModel = new Artist
-            {
-                FirstName = createArtistDto.FirstName,
-                LastName = createArtistDto.LastName
-            };
-
+            var artistModel = createArtistDto.ToArtistFromRequestCreateDto();
             await _artistRepository.CreateAsync(artistModel);
-            return CreatedAtAction(nameof(GetArtistById), new { id = artistModel.ArtistId }, artistModel);
+            return CreatedAtAction(nameof(GetArtistById), new { id = artistModel.ArtistId }, artistModel.ToArtistDto());
         }
 
         [HttpPut("{id}")]
@@ -76,13 +63,7 @@ namespace PublisherProjectAPI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var artistModel = new Artist
-            {
-                ArtistId = updateArtistDto.ArtistId,
-                FirstName = updateArtistDto.FirstName,
-                LastName = updateArtistDto.LastName
-            };
-
+            var artistModel = updateArtistDto.ToArtistFromRequestUpdateDto();
             var artist = await _artistRepository.UpdateAsync(id, artistModel);
             if (artist == null)
             {

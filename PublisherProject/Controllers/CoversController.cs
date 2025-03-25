@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PublisherProjectData.DTOs.Cover;
 using PublisherProjectData.Interfaces;
+using PublisherProjectData.Mappers;
 using PublisherProjectData.Models;
 
 namespace PublisherProjectAPI.Controllers
@@ -10,61 +12,78 @@ namespace PublisherProjectAPI.Controllers
     public class CoversController : ControllerBase
     {
         private readonly ICoverRepository _coverRepository;
+
         public CoversController(ICoverRepository coverRepository)
         {
-            _coverRepository = coverRepository;
+            this._coverRepository = coverRepository;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetCovers()
         {
             if (!ModelState.IsValid)
                 return BadRequest();
+
             var covers = await _coverRepository.GetAllAsync();
-            return Ok(covers);
+            var coverDtos = covers.Select(s => s.ToCoverDto());
+            return Ok(coverDtos);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCoverById(int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
+
             var cover = await _coverRepository.GetByIdAsync(id);
             if (cover == null)
             {
                 return NotFound();
             }
-            return Ok(cover);
+
+            return Ok(cover.ToCoverDto());
         }
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Cover cover)
+        public async Task<IActionResult> Create([FromBody] RequestCreateCoverDto createCoverDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            await _coverRepository.CreateAsync(cover);
-            return Ok(cover);
+
+            var coverModel = createCoverDto.ToCoverFromRequestCreateDto();
+            await _coverRepository.CreateAsync(coverModel);
+            return CreatedAtAction(nameof(GetCoverById), new { id = coverModel.CoverId }, coverModel.ToCoverDto());
         }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Cover cover)
+        public async Task<IActionResult> Update(int id, [FromBody] RequestUpdateCoverDto updateCoverDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var updatedCover = await _coverRepository.UpdateAsync(id, cover);
-            if (updatedCover == null)
+
+            var coverModel = updateCoverDto.ToCoverFromRequestUpdateDto();
+            var cover = await _coverRepository.UpdateAsync(id, coverModel);
+            if (cover == null)
             {
                 return NotFound();
             }
-            return Ok(updatedCover);
+
+            return NoContent();
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var deletedCover = await _coverRepository.DeleteAsync(id);
-            if (deletedCover == null)
+
+            var cover = await _coverRepository.DeleteAsync(id);
+            if (cover == null)
             {
                 return NotFound();
             }
-            return Ok(deletedCover);
+
+            return NoContent();
         }
     }
 }

@@ -51,8 +51,10 @@ namespace PublisherProjectData.Repositories
 
         public async Task<Book?> GetByIdAsync(int id)
         {
-            var theBook = await _context.Books.Include(c => c.Author).FirstOrDefaultAsync(x => x.BookId == id);
-            return theBook;
+            return await _context.Books
+                .Include(b => b.Author) // Inkluder forfatteren
+                .Include(b => b.Covers) // Inkluder covers
+                .FirstOrDefaultAsync(x => x.BookId == id);
         }
 
         public async Task<BookDto?> UpdateAsync(int id, UpdateBookRequestDto bookModel)
