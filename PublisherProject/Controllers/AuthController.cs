@@ -79,7 +79,7 @@ namespace PublisherProjectAPI.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.Role, "User") // Tilføj roller, hvis nødvendigt
+                new Claim(ClaimTypes.Role, "User") 
             };
 
             var token = new JwtSecurityToken(

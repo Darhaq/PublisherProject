@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PublisherProjectData.DTOs.Cover;
 using PublisherProjectData.Interfaces;
@@ -9,6 +10,7 @@ namespace PublisherProjectAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CoversController : ControllerBase
     {
         private readonly ICoverRepository _coverRepository;

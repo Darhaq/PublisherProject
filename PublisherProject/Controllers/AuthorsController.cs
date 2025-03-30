@@ -7,11 +7,13 @@ using PublisherProjectData.DTOs.Author;
 using PublisherProjectData.Interfaces;
 using PublisherProjectData.Mappers;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PublisherProjectAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthorsController : ControllerBase
     {
   
